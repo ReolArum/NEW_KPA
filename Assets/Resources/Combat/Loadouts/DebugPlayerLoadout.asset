@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1d3f31e9694fe4af2a51d91ebd0123, type: 3}
+  m_Name: DebugPlayerLoadout
+  m_EditorClassIdentifier: 
+  ownedSkills:
+  - {fileID: 11400000, guid: 41a23958d06243f2942027f297ec1fb1, type: 2}
+  - {fileID: 11400000, guid: 6892f9a571a04a71a64525cdb527746c, type: 2}
+  - {fileID: 11400000, guid: 563fef62a85f4ea2b7821e182f88cb80, type: 2}
+  - {fileID: 11400000, guid: 6f7cb4a6322448ea9cc94a47124f7726, type: 2}
+  - {fileID: 11400000, guid: c1b1279cc2594c509248e74b7dc60486, type: 2}
+  equippedSkills:
+  - {fileID: 11400000, guid: 41a23958d06243f2942027f297ec1fb1, type: 2}
+  - {fileID: 11400000, guid: 6892f9a571a04a71a64525cdb527746c, type: 2}
+  - {fileID: 11400000, guid: 563fef62a85f4ea2b7821e182f88cb80, type: 2}
+  ownedGuards:
+  - {fileID: 11400000, guid: a51086a9de8ce774e84ad2077a23fd63, type: 2}
+  - {fileID: 11400000, guid: 7adc297294afff242a05c5a2d58a2273, type: 2}
+  - {fileID: 11400000, guid: 57300666098e57b4485974152f43303e, type: 2}
+  equippedGuard: {fileID: 11400000, guid: a51086a9de8ce774e84ad2077a23fd63, type: 2}

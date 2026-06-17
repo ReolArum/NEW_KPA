@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0e5e2d7f2548648a82a174e4f0d123, type: 3}
+  m_Name: CompressedFocus
+  m_EditorClassIdentifier: 
+  skillId: compressed_focus
+  displayName: Compressed Focus
+  family: 2
+  chain1:
+    startupDuration: 0.12
+    activeDuration: 0.84
+    recoveryDuration: 0.24
+    damage: 0
+    guardGaugeGain: 2
+    hasClashEffect: 0
+  chain2:
+    startupDuration: 0.2
+    activeDuration: 1.4
+    recoveryDuration: 0.4
+    damage: 3
+    guardGaugeGain: 4
+    hasClashEffect: 0
+  chain3:
+    startupDuration: 0.32
+    activeDuration: 2.24
+    recoveryDuration: 0.64
+    damage: 6
+    guardGaugeGain: 8
+    hasClashEffect: 1

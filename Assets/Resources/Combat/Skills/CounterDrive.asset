@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0e5e2d7f2548648a82a174e4f0d123, type: 3}
+  m_Name: CounterDrive
+  m_EditorClassIdentifier: 
+  skillId: counter_drive
+  displayName: Counter Drive
+  family: 4
+  chain1:
+    startupDuration: 0.16
+    activeDuration: 1.12
+    recoveryDuration: 0.32
+    damage: 5
+    guardGaugeGain: 2
+    hasClashEffect: 1
+  chain2:
+    startupDuration: 0.24
+    activeDuration: 1.68
+    recoveryDuration: 0.48
+    damage: 11
+    guardGaugeGain: 4
+    hasClashEffect: 1
+  chain3:
+    startupDuration: 0.34
+    activeDuration: 2.38
+    recoveryDuration: 0.68
+    damage: 18
+    guardGaugeGain: 7
+    hasClashEffect: 1

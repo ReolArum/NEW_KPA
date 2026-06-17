@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0e5e2d7f2548648a82a174e4f0d123, type: 3}
+  m_Name: GuardBreaker
+  m_EditorClassIdentifier: 
+  skillId: guard_breaker
+  displayName: Guard Breaker
+  family: 1
+  chain1:
+    startupDuration: 0.18
+    activeDuration: 1.26
+    recoveryDuration: 0.36
+    damage: 7
+    guardGaugeGain: 1
+    hasClashEffect: 0
+  chain2:
+    startupDuration: 0.28
+    activeDuration: 1.96
+    recoveryDuration: 0.56
+    damage: 14
+    guardGaugeGain: 2
+    hasClashEffect: 0
+  chain3:
+    startupDuration: 0.4
+    activeDuration: 2.8
+    recoveryDuration: 0.8
+    damage: 24
+    guardGaugeGain: 5
+    hasClashEffect: 1
