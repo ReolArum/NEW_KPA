@@ -100,6 +100,7 @@ namespace MemoryColoseum.Tests
             Assert.That(outcome, Is.EqualTo(ClashOutcome.PlayerWins));
             Assert.That(simulation.Player.CurrentAction, Is.Not.Null);
             Assert.That(simulation.Enemy.CurrentAction, Is.Null);
+            Assert.That(simulation.Enemy.IsStunned, Is.True);
         }
 
         [Test]
@@ -119,6 +120,78 @@ namespace MemoryColoseum.Tests
             Assert.That(outcome, Is.EqualTo(ClashOutcome.PlayerWins));
             Assert.That(simulation.Player.CurrentAction, Is.Not.Null);
             Assert.That(simulation.Enemy.CurrentAction, Is.Null);
+            Assert.That(simulation.Enemy.IsStunned, Is.True);
+        }
+
+        [Test]
+        public void DamageResolvesAtHitTimingBeforeActivePhaseEnds()
+        {
+            CombatSimulation simulation = new(7);
+            simulation.Initialize(MakeSkills("P"), MakeSkills("E"));
+            simulation.Player.Board.SetSlotsForTest("P_jab");
+            bool damageResolved = false;
+            simulation.DamageResolved += (_, _) => damageResolved = true;
+
+            Assert.That(simulation.TryUsePlayerGroup(new ChainGroup("P_jab", 0, 1)), Is.True);
+            simulation.Tick(0.09f);
+
+            Assert.That(damageResolved, Is.True);
+            Assert.That(simulation.Enemy.Hp, Is.EqualTo(99f));
+            Assert.That(simulation.Player.CurrentAction.IsActive, Is.True);
+        }
+
+        [Test]
+        public void DamageWaitsUntilHitTiming()
+        {
+            CombatSimulation simulation = new(7);
+            simulation.Initialize(MakeSkills("P"), MakeSkills("E"));
+            simulation.Player.Board.SetSlotsForTest("P_jab");
+
+            Assert.That(simulation.TryUsePlayerGroup(new ChainGroup("P_jab", 0, 1)), Is.True);
+            simulation.Tick(0.07f);
+
+            Assert.That(simulation.Enemy.Hp, Is.EqualTo(100f));
+            Assert.That(simulation.Player.CurrentAction.HitResolved, Is.False);
+        }
+
+        [Test]
+        public void StunnedCombatantCannotStartActionsButBoardKeepsSpawning()
+        {
+            CombatantRuntime player = new(CombatSide.Player, 1);
+            player.Initialize(100f, MakeSkills("P"));
+            player.Board.BaseSpawnInterval = 0.1f;
+            player.ApplyStun(0.3f);
+            player.Board.SetSlotsForTest("P_jab", "P_jab", "P_jab");
+
+            Assert.That(player.TryUseGroup(new ChainGroup("P_jab", 0, 3)), Is.False);
+            player.Tick(0.11f);
+
+            Assert.That(player.CurrentAction, Is.Null);
+            Assert.That(player.Board.Slots, Has.Count.GreaterThan(3));
+            Assert.That(player.IsStunned, Is.True);
+        }
+
+        [Test]
+        public void QueuedActionsResumeAfterStunEnds()
+        {
+            CombatantRuntime player = new(CombatSide.Player, 1);
+            player.Initialize(100f, MakeSkills("P"));
+            player.Board.SetSlotsForTest("P_jab", "P_jab", "P_jab", "P_focus");
+
+            Assert.That(player.TryUseGroup(new ChainGroup("P_jab", 0, 3)), Is.True);
+            Assert.That(player.TryUseGroup(new ChainGroup("P_focus", 0, 1)), Is.True);
+            player.CancelCurrentAction();
+            player.ApplyStun(0.2f);
+            player.Tick(0.1f);
+
+            Assert.That(player.CurrentAction, Is.Null);
+            Assert.That(player.QueuedActionCount, Is.EqualTo(1));
+
+            player.Tick(0.11f);
+
+            Assert.That(player.IsStunned, Is.False);
+            Assert.That(player.CurrentAction, Is.Not.Null);
+            Assert.That(player.CurrentAction.Action.Skill.SkillId, Is.EqualTo("P_focus"));
         }
 
         [Test]

@@ -94,6 +94,7 @@ namespace MemoryColoseum.Combat
         public float Duration => Action.Effect.TotalDuration;
         public float RemainingTime => Math.Max(0f, Duration - ElapsedTime);
         public float Progress => Duration <= 0f ? 1f : Math.Min(1f, ElapsedTime / Duration);
+        public float HitTime => Action.Effect.HitTime;
         public float ActiveEndTime => Action.Effect.startupDuration + Action.Effect.activeDuration;
         public ActionPhase Phase
         {
@@ -119,6 +120,7 @@ namespace MemoryColoseum.Combat
         }
 
         public bool IsActive => Phase == ActionPhase.Active;
+        public bool HasReachedHitTiming => ElapsedTime >= HitTime;
         public bool HasCompletedActivePhase => ElapsedTime >= ActiveEndTime;
         public bool IsComplete => Phase == ActionPhase.Complete;
         public bool HitResolved { get; set; }

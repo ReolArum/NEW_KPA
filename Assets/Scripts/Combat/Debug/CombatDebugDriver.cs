@@ -192,7 +192,9 @@ namespace MemoryColoseum.Combat
                 }
             }
 
-            statusText = $"No x{chain} chain available.";
+            statusText = simulation.Player.IsStunned
+                ? $"Player stunned for {simulation.Player.StunRemainingTime:0.00}s."
+                : $"No x{chain} chain available.";
             RefreshHud();
         }
 
@@ -216,7 +218,9 @@ namespace MemoryColoseum.Combat
             }
             else
             {
-                statusText = "No guard stock available.";
+                statusText = simulation.Player.IsStunned
+                    ? $"Player stunned for {simulation.Player.StunRemainingTime:0.00}s."
+                    : "No guard stock available.";
             }
 
             RefreshHud();

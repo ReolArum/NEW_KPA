@@ -64,6 +64,7 @@ namespace MemoryColoseum.Combat
         public CombatantRuntime Enemy { get; }
         public float ElapsedTime { get; private set; }
         public float TimeLimit { get; set; } = 120f;
+        public float ClashStunDuration { get; set; } = 0.75f;
         public CombatEndReason EndReason { get; private set; } = CombatEndReason.None;
         public bool IsEnded => EndReason != CombatEndReason.None;
 
@@ -163,31 +164,37 @@ namespace MemoryColoseum.Combat
 
             if (playerCanClash && !enemyCanClash)
             {
-                Enemy.CancelCurrentAction();
+                CancelAndStun(Enemy);
                 return ClashOutcome.PlayerWins;
             }
 
             if (enemyCanClash && !playerCanClash)
             {
-                Player.CancelCurrentAction();
+                CancelAndStun(Player);
                 return ClashOutcome.EnemyWins;
             }
 
             if (playerAction.Chain > enemyAction.Chain)
             {
-                Enemy.CancelCurrentAction();
+                CancelAndStun(Enemy);
                 return ClashOutcome.PlayerWins;
             }
 
             if (enemyAction.Chain > playerAction.Chain)
             {
-                Player.CancelCurrentAction();
+                CancelAndStun(Player);
                 return ClashOutcome.EnemyWins;
             }
 
-            Player.CancelCurrentAction();
-            Enemy.CancelCurrentAction();
+            CancelAndStun(Player);
+            CancelAndStun(Enemy);
             return ClashOutcome.MutualCancel;
+        }
+
+        private void CancelAndStun(CombatantRuntime combatant)
+        {
+            combatant.CancelCurrentAction();
+            combatant.ApplyStun(ClashStunDuration);
         }
 
         private void ResolveActiveHits()
@@ -199,7 +206,7 @@ namespace MemoryColoseum.Combat
         private void ResolveActiveHit(CombatantRuntime actor, CombatantRuntime target)
         {
             RunningAction runningAction = actor.CurrentAction;
-            if (runningAction == null || runningAction.HitResolved || !runningAction.HasCompletedActivePhase)
+            if (runningAction == null || runningAction.HitResolved || !runningAction.HasReachedHitTiming)
             {
                 return;
             }

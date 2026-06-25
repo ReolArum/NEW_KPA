@@ -18,12 +18,14 @@ namespace MemoryColoseum.Combat
         [Min(0f)] public float startupDuration = 0.36f;
         [Min(0.01f)] public float activeDuration = 0.12f;
         [Min(0f)] public float recoveryDuration = 0.12f;
+        [Range(0f, 1f)] public float hitTiming = 0.35f;
         [Min(0f)] public float damage = 5f;
         [Min(0f)] public float guardGaugeGain = 0f;
         public bool hasClashEffect;
         public string statusEffectId;
 
         public float TotalDuration => startupDuration + activeDuration + recoveryDuration;
+        public float HitTime => startupDuration + activeDuration * hitTiming;
     }
 
     [Serializable]

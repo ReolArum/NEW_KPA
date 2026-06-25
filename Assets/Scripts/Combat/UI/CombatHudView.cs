@@ -297,7 +297,8 @@ namespace MemoryColoseum.Combat
             SetText(guardText, $"Guard {runtime.GuardStock}/{runtime.MaxGuardStock}  Gauge {runtime.GuardGauge:0.0}/{runtime.GuardGaugeToStock:0}");
             SetSlider(guardSlider, runtime.GuardGaugeToStock <= 0f ? 0f : runtime.GuardGauge / runtime.GuardGaugeToStock);
             string activeGuard = runtime.HasActiveGuard ? $"  Guard: {runtime.ActiveGuardName} ({runtime.ActiveGuardRemainingTime:0.00}s)" : string.Empty;
-            SetText(actionText, $"Action: {DescribeRunningAction(runtime.CurrentAction)}{activeGuard}");
+            string stun = runtime.IsStunned ? $"  STUN {runtime.StunRemainingTime:0.00}s" : string.Empty;
+            SetText(actionText, $"Action: {DescribeRunningAction(runtime.CurrentAction)}{activeGuard}{stun}");
             SetSlider(castSlider, runtime.CurrentAction != null ? runtime.CurrentAction.Progress : 0f);
             SetText(queuedText, $"Queued: {runtime.QueuedActionCount}");
             SetText(queueListText, DescribeQueue(runtime.QueuedActions));
@@ -441,7 +442,7 @@ namespace MemoryColoseum.Combat
 
             ChainEffectDefinition effect = skill.GetEffect(group.Length);
             string clash = effect.hasClashEffect ? " / Clash" : string.Empty;
-            return $"{skill.DisplayName} x{group.Length} [{skill.Family}]  Damage {effect.damage:0.#} / Startup {effect.startupDuration:0.##}s / Active {effect.activeDuration:0.##}s / Recovery {effect.recoveryDuration:0.##}s / Guard +{effect.guardGaugeGain:0.#}{clash}";
+            return $"{skill.DisplayName} x{group.Length} [{skill.Family}]  Damage {effect.damage:0.#} / Hit {effect.HitTime:0.##}s / Startup {effect.startupDuration:0.##}s / Active {effect.activeDuration:0.##}s / Recovery {effect.recoveryDuration:0.##}s / Guard +{effect.guardGaugeGain:0.#}{clash}";
         }
 
         private CombatSkillDefinition FindPlayerSkill(string skillId)

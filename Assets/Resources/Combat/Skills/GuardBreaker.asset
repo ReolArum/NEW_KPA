@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!114 &11400000
 MonoBehaviour:
@@ -19,6 +19,7 @@ MonoBehaviour:
     startupDuration: 0.18
     activeDuration: 1.26
     recoveryDuration: 0.36
+    hitTiming: 0.35
     damage: 7
     guardGaugeGain: 1
     hasClashEffect: 0
@@ -26,6 +27,7 @@ MonoBehaviour:
     startupDuration: 0.28
     activeDuration: 1.96
     recoveryDuration: 0.56
+    hitTiming: 0.35
     damage: 14
     guardGaugeGain: 2
     hasClashEffect: 0
@@ -33,6 +35,7 @@ MonoBehaviour:
     startupDuration: 0.4
     activeDuration: 2.8
     recoveryDuration: 0.8
+    hitTiming: 0.35
     damage: 24
     guardGaugeGain: 5
     hasClashEffect: 1

@@ -27,6 +27,8 @@ namespace MemoryColoseum.Combat
         public int QueuedActionCount => actionQueue.Count;
         public IReadOnlyList<CombatAction> QueuedActions => actionQueue.ToArray();
         public bool IsDefeated => Hp <= 0f;
+        public float StunRemainingTime { get; private set; }
+        public bool IsStunned => StunRemainingTime > 0f;
         public CombatGuardDefinition EquippedGuard => equippedGuard;
         public bool HasActiveGuard => activeGuard != null;
         public string ActiveGuardName => activeGuard != null ? activeGuard.Definition.DisplayName : "None";
@@ -42,6 +44,7 @@ namespace MemoryColoseum.Combat
             GuardGauge = 0f;
             GuardStock = 0;
             CurrentAction = null;
+            StunRemainingTime = 0f;
             activeGuard = null;
             equippedGuard = equippedGuardDefinition;
             actionQueue.Clear();
@@ -57,6 +60,11 @@ namespace MemoryColoseum.Combat
 
         public bool TryUseGroup(ChainGroup group)
         {
+            if (IsStunned)
+            {
+                return false;
+            }
+
             if (!skillsById.TryGetValue(group.SkillId, out CombatSkillDefinition skill))
             {
                 return false;
@@ -75,6 +83,11 @@ namespace MemoryColoseum.Combat
 
         public bool TryUseGuard()
         {
+            if (IsStunned)
+            {
+                return false;
+            }
+
             if (GuardStock <= 0 || equippedGuard == null)
             {
                 return false;
@@ -88,13 +101,14 @@ namespace MemoryColoseum.Combat
         public void Tick(float deltaTime)
         {
             Board.TickSpawn(deltaTime);
+            StunRemainingTime = System.Math.Max(0f, StunRemainingTime - deltaTime);
             activeGuard?.Tick(deltaTime);
             if (activeGuard != null && activeGuard.IsExpired)
             {
                 activeGuard = null;
             }
 
-            if (CurrentAction == null && actionQueue.Count > 0)
+            if (!IsStunned && CurrentAction == null && actionQueue.Count > 0)
             {
                 CurrentAction = new RunningAction(actionQueue.Dequeue());
             }
@@ -112,6 +126,11 @@ namespace MemoryColoseum.Combat
         public void CancelCurrentAction()
         {
             CurrentAction = null;
+        }
+
+        public void ApplyStun(float duration)
+        {
+            StunRemainingTime = System.Math.Max(StunRemainingTime, duration);
         }
 
         public DamageResult TakeDamage(CombatAction incomingAction)
